@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ url_for('main.index') }}">COVID Scraper</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('main.index') }}">Scraper</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav m1-auto">
+            {% if not current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('authentication.login') }}">Login </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('authentication.register') }}">Register </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('authentication.logout') }}">Logout </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

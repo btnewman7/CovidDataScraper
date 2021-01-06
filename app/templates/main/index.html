@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {{ super() }}Index
+{% endblock title %}
+
+{% block content %}
+<h1>Please enjoy the data scraper, {{ current_user.first_name }} </h1>
+<hr>
+<div class="container">
+    <div class="row">
+        <form class="form-inline" action="{{ url_for('main.get_data') }}" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label(style='margin-right:15px') }}
+                {{ form.name(class='form-control', style='margin-right:15px') }}
+                {{ form.submit(class='btn btn-outline-info') }}
+            </div>
+            <!-- <input type="submit" value="Submit" class="btn btn-outline-info"> -->
+        </form>
+        <a href="{{ url_for('main.selenium') }}" class="btn btn-outline-success" style="margin-left:15px">Full Data Table as CSV</a>
+    </div>
+</div>
+<div class="row" style="margin-top: 35px;">
+    {% if countries %}
+    <div class="table-responsive" style="margin-top: 35px;">
+        <table class="table trable-striped table-inverse">
+            <thead class="thead-inverse">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Country</th>
+                    <th>Confimed Cases</th>
+                    <th>Deaths</th>
+                    <th>Case Fatality(%)</th>
+                    <th>Deaths/100K People</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for c in countries %}
+                    <tr>
+                        <td>
+                            <form action="{{ url_for('main.cronjob', id=c.id) }}" method="POST">
+                                <input type="submit" class="btn btn-outline-warning" value="Set Cronjob">
+                            </form>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('main.delete_data', id=c.id) }}" class="btn btn-outline-danger">Remove</a>
+                        </td>
+                        {% for v in c.to_dict().values() %}
+                            <td>{{ v }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <strong>You have not selected any countries.</strong>
+    {% endif %}
+</div>
+
+{% endblock content %}
