@@ -102,7 +102,7 @@ def cronjob():
             writer = csv.DictWriter(f, fieldnames=csv_columns)
             writer.writerow(cdict)
         #time.sleep(5)
-        time.sleep(86407)
+        #time.sleep(86407)
     return redirect(url_for('main.index'))
 
 @main.route('/selenium', methods=['GET'])
