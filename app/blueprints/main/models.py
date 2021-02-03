@@ -4,13 +4,17 @@ from bs4 import BeautifulSoup
 class Country(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    confirmed = db.Column(db.Integer)
-    deaths = db.Column(db.Integer)
-    case_fatality_percentage = db.Column(db.Float)
-    deaths_per_100k = db.Column(db.Float)
+    confirmed = db.Column(db.String)
+    deaths = db.Column(db.String)
+    case_fatality_percentage = db.Column(db.String)
+    deaths_per_100k = db.Column(db.String)
 
     def __repr__(self):
         return f"<Country: {self.name}>"
+
+    def expire(self):
+        db.session.expire(self)
+        db.session.commit()
 
     def from_dict(self, data):
         for field in ['name', 'confirmed', 'deaths', 'case_fatality_percentage', 'deaths_per_100k']:
@@ -30,10 +34,10 @@ class Country(db.Model):
 class SelectedCountry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    confirmed = db.Column(db.Integer)
-    deaths = db.Column(db.Integer)
-    case_fatality_percentage = db.Column(db.Float)
-    deaths_per_100k = db.Column(db.Float)
+    confirmed = db.Column(db.String)
+    deaths = db.Column(db.String)
+    case_fatality_percentage = db.Column(db.String)
+    deaths_per_100k = db.Column(db.String)
 
     def remove(self):
         db.session.delete(self)

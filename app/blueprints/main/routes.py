@@ -1,4 +1,4 @@
-from flask import current_app as app, render_template, url_for, redirect, request, json
+from flask import current_app as app, render_template, url_for, redirect, request, json, make_response
 import requests, os, time
 from .import bp as main
 from flask_login import login_required
@@ -10,6 +10,7 @@ from .seed import populate_database
 from csv import writer
 import csv
 from selenium import webdriver
+import io
 
 @main.route('/', methods=['GET', 'POST'])
 @login_required
@@ -76,10 +77,14 @@ def about():
     context = {}
     return render_template('main/about.html', **context)
 
-@main.route('/seed_data', methods=['GET'])
+@main.route('/seed_data', methods=['GET', 'POST'])
 def seed_data():
     url = 'https://coronavirus.jhu.edu/data/mortality'
     page = requests.get(url)
+
+    Country.query.delete()
+    db.session.commit()
+
     populate_database(page.content)
     return redirect(url_for('main.index'))
 
@@ -102,16 +107,17 @@ def cronjob():
             writer = csv.DictWriter(f, fieldnames=csv_columns)
             writer.writerow(cdict)
         #time.sleep(5)
-        #time.sleep(86407)
+        time.sleep(86407)
     return redirect(url_for('main.index'))
 
 @main.route('/selenium', methods=['GET'])
 def selenium():
     driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
     driver.get("https://coronavirus.jhu.edu/data/mortality")
-    table = driver.find_element_by_css_selector("tbody")
+    table = driver.find_element_by_class_name("TFormat_tableBase__1KAwz")
+    tbody = table.find_element_by_css_selector("tbody")
     with open('datatable.csv', 'w', newline='') as csvfile:
         wr = csv.writer(csvfile)
-        for row in table.find_elements_by_css_selector('tr'):
+        for row in tbody.find_elements_by_css_selector('tr'):
             wr.writerow([d.text for d in row.find_elements_by_css_selector('td')])
     return redirect(url_for('main.index'))

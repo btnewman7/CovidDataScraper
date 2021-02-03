@@ -7,7 +7,7 @@
 {% block content %}
 <h1>Welcome back {{ current_user.first_name }}! Enjoy the Data Scraper </h1>
 <hr>
-<p>A special thank you to the Johns Hopkins Coronavirus Resource Center for providing the data!</p>
+<h5>A special thank you to the Johns Hopkins Coronavirus Resource Center for providing the data!</h5>
 <hr>
 <div class="container">
     <div class="row">
@@ -20,7 +20,8 @@
             </div>
             <!-- <input type="submit" value="Submit" class="btn btn-outline-info"> -->
         </form>
-        <a href="{{ url_for('main.selenium') }}" class="btn btn-outline-success" style="margin-left:15px">Full Data Table as CSV</a>
+        <a href="{{ url_for('main.seed_data') }}" class="btn btn-outline-dark" style="margin-left:15px">Update Data</a>
+        <a href="{{ url_for('main.selenium') }}" class="btn btn-outline-success" style="margin-left:15px">Retrieve Data Table as CSV</a>
     </div>
 </div>
 <div class="row" style="margin-top: 35px;">

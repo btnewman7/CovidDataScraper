@@ -8,12 +8,15 @@ def populate_database(data):
     soup = BeautifulSoup(data, 'html.parser')
 
     #Acquire all country data
-    tbody=[i for i in soup.find('tbody')]
+    table=soup.find('table', {'class': 'TFormat_tableBase__1KAwz'})
+    tbody=[i for i in table.find('tbody')]
     tr_list=[i for i in tbody if i !='\n']
+    #tr_list = [soup.find("table").find("tbody").find("tr")]
     
     #compile a list of all countries
     country_list =[]
     for idx, value in enumerate(tr_list):
+        #new_row = rows[idx].find("td").get_text()
         new_row = [row.text for row in tr_list[idx] if row != '\n'][0:]
         country_list.append(new_row)
 
