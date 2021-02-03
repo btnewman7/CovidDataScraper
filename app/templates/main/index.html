@@ -21,7 +21,7 @@
             <!-- <input type="submit" value="Submit" class="btn btn-outline-info"> -->
         </form>
         <a href="{{ url_for('main.seed_data') }}" class="btn btn-outline-dark" style="margin-left:15px">Update Data</a>
-        <a href="{{ url_for('main.selenium') }}" class="btn btn-outline-success" style="margin-left:15px">Retrieve Data Table as CSV</a>
+        <!-- <a href="{{ url_for('main.selenium') }}" class="btn btn-outline-success" style="margin-left:15px">Retrieve Data Table as CSV</a> -->
     </div>
 </div>
 <div class="row" style="margin-top: 35px;">
@@ -43,9 +43,9 @@
                     {% for c in countries %}
                     <tr>
                         <td>
-                            <form action="{{ url_for('main.cronjob', id=c.id) }}" method="POST">
+                            <!-- <form action="{{ url_for('main.cronjob', id=c.id) }}" method="POST">
                                 <input type="submit" class="btn btn-outline-warning" value="Set Cronjob">
-                            </form>
+                            </form> -->
                         </td>
                         <td>
                             <a href="{{ url_for('main.delete_data', id=c.id) }}" class="btn btn-outline-danger">Remove</a>

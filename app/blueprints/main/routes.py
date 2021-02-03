@@ -112,16 +112,10 @@ def cronjob():
 
 @main.route('/selenium', methods=['GET'])
 def selenium():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH")
+    driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
     driver.get("https://coronavirus.jhu.edu/data/mortality")
     table = driver.find_element_by_class_name("TFormat_tableBase__1KAwz")
     tbody = table.find_element_by_css_selector("tbody")
-    print(tbody)
     with open('datatable.csv', 'w', newline='') as csvfile:
         wr = csv.writer(csvfile)
         for row in tbody.find_elements_by_css_selector('tr'):
